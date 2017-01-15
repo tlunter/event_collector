@@ -1,0 +1,4 @@
+eventStreamer:
+  dynamoEndpoint: localhost:8000
+  kinesisEndpoint: localhost:4567
+  collectMetrics: false
