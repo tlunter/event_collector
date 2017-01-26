@@ -5,5 +5,5 @@ import com.upserve.event_collector.stream.Record;
 import java.util.List;
 
 public interface Processor {
-    boolean process(String partition, List<Record> records, Runnable completer);
+    void process(String partition, List<Record> records, Runnable completer);
 }

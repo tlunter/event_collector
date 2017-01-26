@@ -1,10 +1,12 @@
 package com.upserve.event_collector.stream;
 
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.kinesis.AmazonKinesisClient;
 import com.amazonaws.services.kinesis.clientlibrary.lib.worker.KinesisClientLibConfiguration;
 import com.amazonaws.services.kinesis.clientlibrary.lib.worker.Worker;
 import com.amazonaws.services.kinesis.metrics.impl.NullMetricsScope;
+import com.upserve.event_collector.Redis;
 import com.upserve.event_collector.processing.Processor;
 import lombok.Data;
 
@@ -19,11 +21,16 @@ public class EventStreamer {
     private Worker worker;
 
     public void start(Processor processor) {
+        String workerName = System.getenv("HOSTNAME");
+        if (workerName == null) {
+            workerName = "LOCAL";
+        }
+
         KinesisClientLibConfiguration clientConfig = new KinesisClientLibConfiguration(
                 applicationName,
                 streamName,
-                null,
-                System.getenv("HOSTNAME")
+                new DefaultAWSCredentialsProviderChain(),
+                workerName
         );
         Worker.Builder workerConfig = new Worker.Builder().config(clientConfig);
         if (dynamoEndpoint != null) {

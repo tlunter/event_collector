@@ -12,7 +12,9 @@ public class Engine implements AutoCloseable {
     }
 
     public void run() {
-        config.eventStreamer.start(config.processor);
+        config.ticketEventProcessor.start(config.redis);
+
+        config.eventStreamer.start(config.ticketEventProcessor);
     }
 
     @Override

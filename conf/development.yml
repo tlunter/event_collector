@@ -1,4 +1,11 @@
+redis:
+  endpoint: tcp://127.0.0.1:6379
+
+ticketEventProcessor: {}
+
 eventStreamer:
-  dynamoEndpoint: localhost:8000
-  kinesisEndpoint: localhost:4567
+  dynamoEndpoint: http://localhost:8000
+  kinesisEndpoint: http://localhost:4567
   collectMetrics: false
+  applicationName: eventCollector
+  streamName: eventCollector
